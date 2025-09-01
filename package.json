@@ -5,9 +5,18 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
-    "start": "next start"
+    "start": "next start",
+    "gen": "bash protoc.sh",
+    "drizzle-gen": "drizzle-orm generate"
   },
   "dependencies": {
+    "@bufbuild/protobuf": "^2.7.0",
+    "@connectrpc/connect": "^2.1.0",
+    "@connectrpc/connect-next": "^2.1.0",
+    "@connectrpc/connect-node": "^2.1.0",
+    "@connectrpc/connect-query": "^2.1.1",
+    "@connectrpc/connect-web": "^2.1.0",
+    "@tanstack/react-query": "^5.85.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.542.0",
@@ -17,6 +26,7 @@
     "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
+    "@bufbuild/protoc-gen-es": "^2.7.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

@@ -1,0 +1,16 @@
+syntax = "proto3";
+package dashboard.v1;
+
+import "google/protobuf/empty.proto";
+
+service DashboardService {
+  rpc Test(TestRequest) returns (TestResponse) {}
+}
+
+message TestRequest {
+  string name = 1;
+}
+
+message TestResponse {
+  string message = 1;
+}
