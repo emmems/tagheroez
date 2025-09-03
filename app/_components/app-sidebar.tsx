@@ -18,12 +18,12 @@ const navData = [
     items: [
       {
         title: "Admin Dashboard",
-        url: "#",
+        url: "dashboard",
         icon: ChartColumn,
       },
       {
         title: "User Management",
-        url: "#",
+        url: "users",
         icon: Users,
       }
     ]
@@ -33,12 +33,12 @@ const navData = [
     items: [
       {
         title: "Parents",
-        url: "#",
+        url: "parents",
         icon: User,
       },
       {
         title: "Players",
-        url: "#",
+        url: "players",
         icon: UserPlus,
       }
     ]
@@ -48,12 +48,12 @@ const navData = [
     items: [
       {
         title: "Register Player",
-        url: "#",
+        url: "register-player",
         icon: Play,
       },
       {
         title: "Active Games",
-        url: "#",
+        url: "active-games",
         icon: Clock4,
       }
     ]
@@ -63,7 +63,7 @@ const navData = [
     items: [
       {
         title: "Marketing",
-        url: "#",
+        url: "marketing",
         icon: Megaphone,
       },
     ]

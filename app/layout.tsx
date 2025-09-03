@@ -1,7 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { RpcProvider } from "@/src/api/tools/RpcProvider";
-import { Globe } from "lucide-react";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { AppSidebar } from "./_components/app-sidebar";
@@ -34,11 +33,21 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
       <RpcProvider>
-        <SidebarProvider>
+        {/* login */}
+        {/* <div className="flex flex-col gap-4 min-h-svh w-full items-center justify-center p-6 md:p-10">
+          <h1>JumpHeroez</h1>
+          <h2>Admin Portal</h2>
+          <div className="w-full max-w-sm">
+            <LoginForm />
+          </div>
+        </div> */}
+
+        {/* app */}
+        {/* TODO - available only after logging in */}
+         <SidebarProvider>
           <AppSidebar />
           <div className='flex flex-1 flex-col'>
-            {/* shrink-0 */}
-            <header className="flex justify-between h-16 border-b px-4">
+            <header className="flex justify-between items-center h-16 border-b px-4">
               <div className='flex items-center gap-2'>
                 <SidebarTrigger className="-ml-1" />
                 <Separator
@@ -47,32 +56,10 @@ export default function RootLayout({
                 />
                 <p>Adventure Park Mangagment</p>
               </div>
-              {/* <Breadcrumb>
-                <BreadcrumbList>
-                  <BreadcrumbItem className="hidden md:block">
-                    <BreadcrumbLink href="#">
-                      Building Your Application
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator className="hidden md:block" />
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                  </BreadcrumbItem>
-                </BreadcrumbList>
-              </Breadcrumb> */}
 
-              <div className="flex items-center gap-2">
-                <Globe width={16} height={16} />
-                <User />
-              </div>
+              <User />
             </header>
             <main className="p-4">
-              {/* <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                <div className="bg-muted/50 aspect-video rounded-xl" />
-                <div className="bg-muted/50 aspect-video rounded-xl" />
-                <div className="bg-muted/50 aspect-video rounded-xl" />
-              </div>
-              <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" /> */}
               {children}
             </main>
           </div>
