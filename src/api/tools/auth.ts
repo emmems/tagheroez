@@ -1,4 +1,4 @@
-import { dbKey } from "@/src/db/database";
+import { Database, dbKey } from "@/src/db/database";
 import { getAuth } from "@clerk/nextjs/server";
 import { createContextKey, HandlerContext } from "@connectrpc/connect";
 import { NextRequest } from "next/server";
@@ -25,7 +25,7 @@ export async function authenticate(req: NextRequest) {
   }
 }
 
-export function getCtx(ctx: HandlerContext): { db: unknown; user: User } {
+export function getCtx(ctx: HandlerContext): { db: Database; user: User } {
   return {
     user: ctx.values.get(userKey),
     db: ctx.values.get(dbKey),
