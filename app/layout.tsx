@@ -1,6 +1,11 @@
+import { Separator } from "@/components/ui/separator";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { RpcProvider } from "@/src/api/tools/RpcProvider";
+import { Globe } from "lucide-react";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { AppSidebar } from "./_components/app-sidebar";
+import User from "./_components/user";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -28,7 +33,51 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <RpcProvider>{children}</RpcProvider>
+      <RpcProvider>
+        <SidebarProvider>
+          <AppSidebar />
+          <div className='flex flex-1 flex-col'>
+            {/* shrink-0 */}
+            <header className="flex justify-between h-16 border-b px-4">
+              <div className='flex items-center gap-2'>
+                <SidebarTrigger className="-ml-1" />
+                <Separator
+                  orientation="vertical"
+                  className="mr-2 data-[orientation=vertical]:h-4"
+                />
+                <p>Adventure Park Mangagment</p>
+              </div>
+              {/* <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem className="hidden md:block">
+                    <BreadcrumbLink href="#">
+                      Building Your Application
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator className="hidden md:block" />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb> */}
+
+              <div className="flex items-center gap-2">
+                <Globe width={16} height={16} />
+                <User />
+              </div>
+            </header>
+            <main className="p-4">
+              {/* <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+                <div className="bg-muted/50 aspect-video rounded-xl" />
+                <div className="bg-muted/50 aspect-video rounded-xl" />
+                <div className="bg-muted/50 aspect-video rounded-xl" />
+              </div>
+              <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" /> */}
+              {children}
+            </main>
+          </div>
+        </SidebarProvider>
+      </RpcProvider>
       </body>
     </html>
   );
