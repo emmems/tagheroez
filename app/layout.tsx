@@ -1,6 +1,12 @@
 import { Separator } from "@/components/ui/separator";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { RpcProvider } from "@/src/api/tools/RpcProvider";
+import {
+  ClerkProvider,
+  RedirectToSignIn,
+  SignedIn,
+  SignedOut,
+} from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { AppSidebar } from "./_components/app-sidebar";
@@ -28,44 +34,47 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-      <RpcProvider>
-        {/* login */}
-        {/* <div className="flex flex-col gap-4 min-h-svh w-full items-center justify-center p-6 md:p-10">
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+          <RpcProvider>
+            {/* login */}
+            {/* <div className="flex flex-col gap-4 min-h-svh w-full items-center justify-center p-6 md:p-10">
           <h1>JumpHeroez</h1>
           <h2>Admin Portal</h2>
           <div className="w-full max-w-sm">
             <LoginForm />
           </div>
         </div> */}
+            <SignedOut>
+              <RedirectToSignIn />
+            </SignedOut>
+            {/* app */}
+            <SignedIn>
+              <SidebarProvider>
+                <AppSidebar />
+                <div className="flex flex-1 flex-col">
+                  <header className="flex justify-between items-center h-16 border-b px-4">
+                    <div className="flex items-center gap-2">
+                      <SidebarTrigger className="-ml-1" />
+                      <Separator
+                        orientation="vertical"
+                        className="mr-2 data-[orientation=vertical]:h-4"
+                      />
+                      <p>Adventure Park Mangagment</p>
+                    </div>
 
-        {/* app */}
-        {/* TODO - available only after logging in */}
-         <SidebarProvider>
-          <AppSidebar />
-          <div className='flex flex-1 flex-col'>
-            <header className="flex justify-between items-center h-16 border-b px-4">
-              <div className='flex items-center gap-2'>
-                <SidebarTrigger className="-ml-1" />
-                <Separator
-                  orientation="vertical"
-                  className="mr-2 data-[orientation=vertical]:h-4"
-                />
-                <p>Adventure Park Mangagment</p>
-              </div>
-
-              <User />
-            </header>
-            <main className="p-4">
-              {children}
-            </main>
-          </div>
-        </SidebarProvider>
-      </RpcProvider>
-      </body>
-    </html>
+                    <User />
+                  </header>
+                  <main className="p-4">{children}</main>
+                </div>
+              </SidebarProvider>
+            </SignedIn>
+          </RpcProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

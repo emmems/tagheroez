@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@bufbuild/protobuf": "^2.7.0",
+    "@clerk/nextjs": "^6.31.8",
     "@connectrpc/connect": "^2.1.0",
     "@connectrpc/connect-next": "^2.1.0",
     "@connectrpc/connect-node": "^2.1.0",
@@ -24,10 +25,14 @@
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@tanstack/react-query": "^5.85.6",
+    "@types/jsonwebtoken": "^9.0.10",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dotenv": "^17.2.2",
+    "drizzle-orm": "^0.44.5",
     "lucide-react": "^0.542.0",
     "next": "15.5.2",
+    "postgres": "^3.4.7",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "tailwind-merge": "^3.3.1"
@@ -38,7 +43,9 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "drizzle-kit": "^0.31.4",
     "tailwindcss": "^4",
+    "tsx": "^4.20.5",
     "tw-animate-css": "^1.3.7",
     "typescript": "^5"
   }

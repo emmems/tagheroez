@@ -1,5 +1,6 @@
 import {
   createConnectRouter,
+  HandlerContext,
   type ConnectRouter,
   type ConnectRouterOptions,
   type ContextValues,
@@ -10,13 +11,25 @@ import {
   universalServerResponseToFetch,
   type UniversalHandler,
 } from "@connectrpc/connect/protocol";
+import { NextRequest } from "next/server";
+
+export type User = {
+  sessionID: string;
+  userID: string;
+};
+
+export type RpcContext = HandlerContext & {
+  user?: User;
+  db: unknown;
+  headers: Headers;
+};
 
 interface UniversalRequestHandlerOptions extends ConnectRouterOptions {
   routes: (router: ConnectRouter) => void;
 
   requestPathPrefix?: string;
 
-  contextValues?: (req: Request) => Promise<ContextValues>;
+  contextValues?: (req: NextRequest) => Promise<ContextValues>;
 
   notFound?: (req: Request) => Promise<Response>;
 }
@@ -34,7 +47,7 @@ export function createUniversalRequestHandler(
   }
 
   return {
-    async fetch(req: Request) {
+    async fetch(req: NextRequest) {
       const url = new URL(req.url);
       let pathname = url.pathname;
       if (options.requestPathPrefix) {
@@ -50,14 +63,11 @@ export function createUniversalRequestHandler(
       }
       let uReq: UniversalServerRequest = {
         ...universalServerRequestFromFetch(req, {}),
-        // @ts-ignore
-        contextValues: {
-          ...(await options.contextValues?.(req)),
-        },
-        req: req,
-        resHeaders: req.headers,
       };
 
+      if (options.contextValues) {
+        uReq.contextValues = await options.contextValues(req);
+      }
       const uRes = await handler(uReq);
       return universalServerResponseToFetch(uRes);
     },

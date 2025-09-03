@@ -1,15 +1,24 @@
 import {
-    Sidebar,
-    SidebarContent,
-    SidebarGroup,
-    SidebarGroupContent,
-    SidebarGroupLabel,
-    SidebarHeader,
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem
-} from "@/components/ui/sidebar"
-import { ChartColumn, Clock4, Megaphone, Play, User, UserPlus, Users } from "lucide-react"
+  Sidebar,
+  SidebarContent,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from "@/components/ui/sidebar";
+import { UserButton } from "@clerk/nextjs";
+import {
+  ChartColumn,
+  Clock4,
+  Megaphone,
+  Play,
+  User,
+  UserPlus,
+  Users,
+} from "lucide-react";
 
 // Menu items.
 const navData = [
@@ -25,8 +34,8 @@ const navData = [
         title: "User Management",
         url: "users",
         icon: Users,
-      }
-    ]
+      },
+    ],
   },
   {
     title: "Customer Management",
@@ -40,8 +49,8 @@ const navData = [
         title: "Players",
         url: "players",
         icon: UserPlus,
-      }
-    ]
+      },
+    ],
   },
   {
     title: "Game Sessions",
@@ -55,8 +64,8 @@ const navData = [
         title: "Active Games",
         url: "active-games",
         icon: Clock4,
-      }
-    ]
+      },
+    ],
   },
   {
     title: "Marketing",
@@ -66,9 +75,9 @@ const navData = [
         url: "marketing",
         icon: Megaphone,
       },
-    ]
+    ],
   },
-]
+];
 
 export function AppSidebar() {
   return (
@@ -104,7 +113,7 @@ export function AppSidebar() {
                 {item.items.map((item) => (
                   <SidebarMenuItem key={item.title}>
                     {/*isActive={item.isActive}*/}
-                    <SidebarMenuButton asChild >
+                    <SidebarMenuButton asChild>
                       <a href={item.url}>
                         <item.icon />
                         <span>{item.title}</span>
@@ -116,7 +125,11 @@ export function AppSidebar() {
             </SidebarGroupContent>
           </SidebarGroup>
         ))}
+        <div className="grow"></div>
+        <div className="ml-3 mb-3">
+          <UserButton showName />
+        </div>
       </SidebarContent>
     </Sidebar>
-  )
+  );
 }
