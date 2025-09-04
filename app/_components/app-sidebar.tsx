@@ -1,33 +1,35 @@
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar";
-import { UserButton } from "@clerk/nextjs";
-import {
-  ChartColumn,
-  Clock4,
-  Megaphone,
-  Play,
-  User,
-  UserPlus,
-  Users,
-} from "lucide-react";
+'use client'
 
-// Menu items.
+import {
+    Sidebar,
+    SidebarContent,
+    SidebarGroup,
+    SidebarGroupContent,
+    SidebarGroupLabel,
+    SidebarHeader,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+} from "@/components/ui/sidebar";
+import {
+    ChartColumn,
+    Clock4,
+    Megaphone,
+    Play,
+    User,
+    UserPlus,
+    Users,
+} from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
 const navData = [
   {
     title: "General",
     items: [
       {
         title: "Admin Dashboard",
-        url: "dashboard",
+        url: "",
         icon: ChartColumn,
       },
       {
@@ -80,55 +82,41 @@ const navData = [
 ];
 
 export function AppSidebar() {
+  const pathname = usePathname();
+
   return (
     <Sidebar>
       <SidebarHeader>
-        <h1>JumpHeroez</h1>
+        <h1 className="font-bold text-xl text-blue-900">JumpHeroez</h1>
       </SidebarHeader>
       <SidebarContent>
-        {/*<SidebarGroup>
-          <SidebarGroupLabel>Application</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <a href={item.url}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-        </SidebarGroup>
-        <SidebarGroup />*/}
-        {/* We create a SidebarGroup for each parent. */}
         {navData.map((item) => (
           <SidebarGroup key={item.title}>
             <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                {item.items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    {/*isActive={item.isActive}*/}
-                    <SidebarMenuButton asChild>
-                      <a href={item.url}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
+                {item.items.map((item) => {
+                  const itemPath = `/${item.url}`;
+                  const isActive =
+                    itemPath === "/"
+                      ? pathname === itemPath
+                      : pathname.startsWith(itemPath);
+
+                  return (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton isActive={isActive} asChild>
+                        <Link href={itemPath}>
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  );
+                })}
               </SidebarMenu>
             </SidebarGroupContent>
           </SidebarGroup>
         ))}
-        <div className="grow"></div>
-        <div className="ml-3 mb-3">
-          <UserButton showName />
-        </div>
       </SidebarContent>
     </Sidebar>
   );

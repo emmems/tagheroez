@@ -1,6 +1,11 @@
+import SectionTitle from "@/components/section-title"
+
 function PlayersPage() {
   return (
-    <p>players</p>
+    <SectionTitle
+      title="Player Management"
+      subtitle="Manage player profiles and game history"
+    />
   )
 }
 

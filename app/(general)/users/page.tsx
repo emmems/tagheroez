@@ -1,6 +1,11 @@
+import SectionTitle from "@/components/section-title"
+
 function UserManagementPage() {
   return (
-    <p>user management</p>
+    <SectionTitle
+      title="User Management"
+      subtitle="Manage internal users and their access rights"
+    />
   )
 }
 

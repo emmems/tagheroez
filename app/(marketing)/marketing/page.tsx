@@ -1,6 +1,11 @@
+import SectionTitle from "@/components/section-title"
+
 function MarketingPage() {
   return (
-    <p>marketing</p>
+    <SectionTitle
+      title="Marketing"
+      subtitle="Create and manage AI-generated marketing campaigns and offers"
+    />
   )
 }
 

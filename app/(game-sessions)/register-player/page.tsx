@@ -1,6 +1,11 @@
+import SectionTitle from "@/components/section-title"
+
 function RegisterPlayerPage() {
   return (
-    <p>register player</p>
+    <SectionTitle
+      title="Game Registration"
+      subtitle="Register players for a new game session"
+    />
   )
 }
 

@@ -1,6 +1,11 @@
+import SectionTitle from "@/components/section-title"
+
 function ParentsPage() {
   return (
-    <p>parents</p>
+    <SectionTitle
+      title="Parent Management"
+      subtitle="Manage parent/guardian accounts"
+    />
   )
 }
 

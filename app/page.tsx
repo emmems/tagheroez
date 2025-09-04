@@ -1,10 +1,17 @@
-import { Test } from "@/src/components/Test";
+import SectionTitle from "@/components/section-title";
+import DailyStats from "./_components/sections/daily-stats";
+import SystemStatus from "./_components/sections/system-status";
 
 export default function Home() {
   return (
     <>
-      <h2>Dashboard</h2>
-      <Test />
+      <SectionTitle
+        title="Dashboard"
+        subtitle="Welcome back, John Admin! Here's an overview of JumpHeroez activity."
+      />
+      {/* <Test /> */}
+      <DailyStats />
+      <SystemStatus />
     </>
     // <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
     //   <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
