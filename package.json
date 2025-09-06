@@ -7,7 +7,8 @@
     "build": "next build --turbopack",
     "start": "next start",
     "gen": "bash protoc.sh",
-    "drizzle-gen": "drizzle-orm generate"
+    "drizzle-gen": "drizzle-kit generate",
+    "drizzle-push": "drizzle-kit push"
   },
   "dependencies": {
     "@bufbuild/protobuf": "^2.7.0",

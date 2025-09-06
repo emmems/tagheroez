@@ -8,6 +8,13 @@
       "when": 1756913869049,
       "tag": "0000_woozy_lady_ursula",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1757166832958,
+      "tag": "0001_mighty_wild_pack",
+      "breakpoints": true
     }
   ]
 }
