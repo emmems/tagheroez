@@ -1,0 +1,119 @@
+syntax = "proto3";
+package users.v1;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+service UserService {
+    //  Employees
+
+  rpc GetEmployees(GetEmployeesRequest) returns (GetEmployeesResponse) {}
+  rpc UpdateEmployee(UpdateEmployeeRequest) returns (google.protobuf.Empty) {}
+
+
+  // Site users
+
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
+  rpc UpdateUser(UpdateUserRequest) returns (google.protobuf.Empty) {}
+  rpc DeleteUser(DeleteUserRequest) returns (google.protobuf.Empty) {}
+  rpc GetUsers(GetUsersRequest) returns (GetUsersResponse) {}
+  rpc GetUser(GetUserRequest) returns (GetUserResponse) {}
+}
+
+message CreateUserRequest {
+    string name = 1;
+    optional string email = 2;
+    UserRole role = 3;
+    repeated string parents_id = 4;
+}
+
+message CreateUserResponse {
+    string id = 1;
+}
+
+message CreateUser {
+    string name = 1;
+    string email = 2;
+    UserRole role = 3;
+    repeated string parents_id = 4;
+}
+
+message DeleteUserRequest {
+    string id = 1;
+}
+
+message UpdateUserRequest {
+    string id = 1;
+    UpdateUser update_user = 2;
+}
+
+message GetUserRequest {
+    string id = 1;
+}
+
+message GetUserResponse {
+    User user = 1;
+}
+
+message GetUsersRequest {
+    optional string search = 1;
+    UserRole role = 2;
+}
+
+message GetUsersResponse {
+    repeated User users = 1;
+}
+
+enum UserRole {
+    PARENT = 0;
+    PLAYER = 1;
+}
+
+message UpdateUser {
+    optional string name = 2;
+    optional string email = 3;
+    optional UserRole role = 4;
+    repeated string parents_id = 5;
+}
+
+message User {
+    string id = 1;
+    string name = 2;
+    optional string email = 3;
+    UserRole role = 4;
+    repeated string parents_id = 5;
+    optional google.protobuf.Timestamp last_active_at = 6;
+}
+
+enum EmployeeStatus {
+    ACTIVE = 0;
+    INACTIVE = 1;
+}
+
+enum EmployeeRole {
+    ADMIN = 0;
+    SUPER_ADMIN = 1;
+}
+
+message Employee {
+    string id = 1;
+    string email = 3;
+    EmployeeStatus status = 4;
+    EmployeeRole role = 5;
+    google.protobuf.Timestamp last_active_at = 6;
+}
+
+message UpdateEmployeeRequest {
+    string id = 1;
+    optional string email = 2;
+    optional EmployeeStatus status = 3;
+    optional EmployeeRole role = 4;
+}
+
+message GetEmployeesRequest {
+    optional string search = 1;
+}
+
+message GetEmployeesResponse {
+    repeated Employee employees = 1;
+}

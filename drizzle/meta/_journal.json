@@ -15,6 +15,20 @@
       "when": 1757166832958,
       "tag": "0001_mighty_wild_pack",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1757171318485,
+      "tag": "0002_mature_paladin",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1757172494426,
+      "tag": "0003_romantic_toro",
+      "breakpoints": true
     }
   ]
 }

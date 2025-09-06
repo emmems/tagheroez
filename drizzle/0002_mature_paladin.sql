@@ -1,0 +1,1 @@
+ALTER TABLE "employees" ADD COLUMN "external_user_id" varchar(255) NOT NULL;

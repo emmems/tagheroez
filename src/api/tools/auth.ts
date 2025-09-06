@@ -1,7 +1,13 @@
 import { Database, dbKey } from "@/src/db/database";
-import { getAuth } from "@clerk/nextjs/server";
-import { createContextKey, HandlerContext } from "@connectrpc/connect";
+import { clerkClient, getAuth } from "@clerk/nextjs/server";
+import {
+  Code,
+  ConnectError,
+  createContextKey,
+  HandlerContext,
+} from "@connectrpc/connect";
 import { NextRequest } from "next/server";
+import { EmployeeHelper } from "../employee.helper";
 import { User } from "./universal.server.handler";
 
 export const userKey = createContextKey<User>({
@@ -9,7 +15,7 @@ export const userKey = createContextKey<User>({
   userID: "",
 });
 
-export async function authenticate(req: NextRequest) {
+export async function authenticate(req: NextRequest, db: Database) {
   try {
     const authResponse = getAuth(req, {
       secretKey: process.env.CLERK_SECRET_KEY,
@@ -18,6 +24,16 @@ export async function authenticate(req: NextRequest) {
       sessionID: authResponse.sessionId ?? undefined,
       userID: authResponse.userId ?? undefined,
     };
+
+    if (returnValue.userID != null) {
+      const isActive = await EmployeeHelper.checkEmployeeIfActive(db, {
+        userID: returnValue.userID,
+        clerk: clerkClient,
+      });
+      if (isActive == false) {
+        throw new ConnectError("Employee is not active", Code.Unauthenticated);
+      }
+    }
 
     return returnValue;
   } catch (e) {

@@ -1,4 +1,4 @@
-import { dbKey } from "@/src/db/database";
+import { db, dbKey } from "@/src/db/database";
 import { createContextValues } from "@connectrpc/connect";
 import { NextRequest } from "next/server";
 import { getServices } from "../routes";
@@ -15,8 +15,8 @@ export namespace RpcServerHandler {
 
       contextValues: async (req: NextRequest) => {
         const values = createContextValues();
-        values.set(userKey, await authenticate(req));
-        values.set(dbKey, undefined);
+        values.set(userKey, await authenticate(req, db));
+        values.set(dbKey, db);
 
         return values;
       },

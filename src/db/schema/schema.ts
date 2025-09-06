@@ -13,11 +13,14 @@ export const employeeRoleEnum = pgEnum("employee_role", [
   "admin",
   "super_admin",
 ]);
+export type EmployeeRole = (typeof employeeRoleEnum.enumValues)[number];
+
 export const employeeStatus = pgEnum("employee_status", ["active", "inactive"]);
-export const siteUserRoleEnum = pgEnum("site_user_role", ["parent", "child"]);
+export const siteUserRoleEnum = pgEnum("site_user_role", ["parent", "player"]);
 
 export const employeesTable = pgTable("employees", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
+  externalUserID: varchar("external_user_id", { length: 255 }).notNull(),
   name: varchar({ length: 255 }).notNull(),
   role: employeeRoleEnum().notNull(),
   status: employeeStatus().default("active").notNull(),
