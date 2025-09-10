@@ -4,6 +4,7 @@ import SectionTitle from "@/components/section-title";
 import { Button } from "@/components/ui/button";
 import { rpcProvider, useQuery } from "@/src/api/rpc.provider";
 import { UserFormDialog } from "./_components/form/user-form-dialog";
+import InternalUsers from "./_components/sections/internal-users";
 
 function UserManagementPage() {
   const { data: users } = useQuery(rpcProvider.userRouter.getUsers);
@@ -25,6 +26,7 @@ function UserManagementPage() {
 
         }
       />
+      <InternalUsers />
     </>
   )
 }
