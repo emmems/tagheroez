@@ -1,3 +1,4 @@
+import { checkPermissions as cp, type APIMethod } from "@/lib/role.definition";
 import { Code, ConnectError } from "@connectrpc/connect";
 import { eq } from "drizzle-orm";
 import { Database } from "../db/database";
@@ -6,7 +7,7 @@ import { employeesTable, type EmployeeRole } from "../db/schema/schema";
 export namespace RoleHelper {
   export async function checkUserPermissions(
     db: Database,
-    method: Method,
+    method: APIMethod,
     userID: string,
   ) {
     const usersList = await db
@@ -22,28 +23,33 @@ export namespace RoleHelper {
     }
 
     checkPermissions(method, usersList[0].role);
-
-    throw new ConnectError("Permission denied", Code.PermissionDenied);
   }
 
-  export function checkPermissions(method: Method, role: EmployeeRole) {
-    if (role === "super_admin") {
-      return;
+  export async function getUserRole(db: Database, userID?: string) {
+    if (userID == null) {
+      return undefined;
     }
 
-    switch (method) {
-      case "UpdateEmployee":
-        throw new ConnectError("Permission denied", Code.PermissionDenied);
-      default:
-        return;
+    const usersList = await db
+      .select({
+        role: employeesTable.role,
+      })
+      .from(employeesTable)
+      .where(eq(employeesTable.externalUserID, userID))
+      .limit(1);
+
+    if (usersList.length == 0) {
+      return undefined;
+    }
+
+    return usersList[0].role;
+  }
+
+  export function checkPermissions(method: APIMethod, role: EmployeeRole) {
+    try {
+      cp(method, role);
+    } catch (error) {
+      throw new ConnectError("Permission denied", Code.PermissionDenied);
     }
   }
 }
-export type Method =
-  | "GetEmployees"
-  | "UpdateEmployee"
-  | "CreateUser"
-  | "UpdateUser"
-  | "DeleteUser"
-  | "GetUsers"
-  | "GetUser";

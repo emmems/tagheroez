@@ -1,0 +1,1 @@
+ALTER TABLE "employees" ADD CONSTRAINT "employees_external_user_id_unique" UNIQUE("external_user_id");

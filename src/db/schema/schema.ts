@@ -20,7 +20,9 @@ export const siteUserRoleEnum = pgEnum("site_user_role", ["parent", "player"]);
 
 export const employeesTable = pgTable("employees", {
   id: integer().primaryKey().generatedAlwaysAsIdentity(),
-  externalUserID: varchar("external_user_id", { length: 255 }).notNull(),
+  externalUserID: varchar("external_user_id", { length: 255 })
+    .notNull()
+    .unique(),
   name: varchar({ length: 255 }).notNull(),
   role: employeeRoleEnum().notNull(),
   status: employeeStatus().default("active").notNull(),
