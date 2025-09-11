@@ -5,6 +5,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
+import type { Employee } from "@/src/api/gen/dashboard/v1/users_pb";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -12,7 +13,7 @@ import { UserFormData, userSchema } from "./user-schema";
 
 
 interface UserFormProps {
-  initialData?: Partial<UserFormData>;
+  initialData: Employee;
   onFormSubmit: (values: UserFormData) => Promise<void>;
 }
 
@@ -21,34 +22,27 @@ function UserForm({ initialData, onFormSubmit }: UserFormProps) {
 
   const form = useForm<UserFormData>({
       resolver: zodResolver(userSchema),
-      defaultValues: initialData || {
+      defaultValues: {
+        id: initialData?.id || undefined,
         fullName: "",
         username: "",
-        email: "",
+        email: initialData?.email || "",
         password: "",
         confirmPassword: "",
-        role: "admin",
+        role: initialData?.role ? initialData.role === 1 ? "superadmin" : "admin" : "admin",
       },
     })
-
-  // function onSubmit(values: z.infer<typeof formSchema>) {
-  //   console.log(values)
-  // }
 
   async function onSubmit(values: UserFormData) {
      setIsSubmitting(true);
      try {
-       console.log(values);
-       // Tutaj logika wysyłania danych do API
-       // await sendUserData(values);
-       onFormSubmit(values);
+       await onFormSubmit(values);
      } catch (error) {
-       console.error("Błąd podczas tworzenia użytkownika", error);
+       console.log("Error while creating user", error);
      } finally {
        setIsSubmitting(false);
      }
    }
-
 
   return (
     <Form {...form}>
@@ -60,7 +54,7 @@ function UserForm({ initialData, onFormSubmit }: UserFormProps) {
             <FormItem>
               <FormLabel>Full Name</FormLabel>
               <FormControl>
-                <Input placeholder="test" {...field} />
+                <Input placeholder="John Admin" {...field} />
               </FormControl>
               <FormDescription>
                 This is your public display name.
@@ -77,10 +71,10 @@ function UserForm({ initialData, onFormSubmit }: UserFormProps) {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="test" {...field} />
+                <Input placeholder="johnadmin" {...field} />
               </FormControl>
               <FormDescription>
-                This is your public display name.
+                This is your public display username.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -94,40 +88,22 @@ function UserForm({ initialData, onFormSubmit }: UserFormProps) {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="test" {...field} />
+                <Input placeholder="john@jumpheroez.com" {...field} />
               </FormControl>
               <FormDescription>
-                {/* This is your public display name. */}
-                Na ten adres zostanie wysłany e-mail weryfikacyjny.
+                A verification email will be sent to this address.
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        {/* <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Initial Password</FormLabel>
-              <FormControl>
-                <Input type="password" placeholder="••••••••" {...field} />
-              </FormControl>
-              <FormDescription>
-                Hasło musi mieć co najmniej 8 znaków.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
-
         <FormField
           control={form.control}
           name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Hasło</FormLabel>
+              <FormLabel>Password</FormLabel>
               <FormControl>
                 <Input
                   type="password"
@@ -137,7 +113,7 @@ function UserForm({ initialData, onFormSubmit }: UserFormProps) {
                 />
               </FormControl>
               <FormDescription>
-                Minimum 8 znaków, w tym wielka i mała litera oraz cyfra.
+                Minimum 8 characters, including uppercase and lowercase letters and numbers.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -149,7 +125,7 @@ function UserForm({ initialData, onFormSubmit }: UserFormProps) {
           name="confirmPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Potwierdź hasło</FormLabel>
+              <FormLabel>Confirm password</FormLabel>
               <FormControl>
                 <Input
                   type="password"
@@ -159,13 +135,12 @@ function UserForm({ initialData, onFormSubmit }: UserFormProps) {
                 />
               </FormControl>
               <FormDescription>
-                Wpisz hasło ponownie, aby uniknąć pomyłek.
+                Please re-enter your password to avoid any mistakes.
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-
 
         <FormField
           control={form.control}
@@ -174,9 +149,9 @@ function UserForm({ initialData, onFormSubmit }: UserFormProps) {
             <FormItem>
               <FormLabel>Role</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a verified email to display" />
+                <FormControl className="w-ful">
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select a role" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -184,18 +159,16 @@ function UserForm({ initialData, onFormSubmit }: UserFormProps) {
                   <SelectItem value="admin">Admin</SelectItem>
                 </SelectContent>
               </Select>
-              {/* <FormDescription>
-                You can manage email addresses in your{" "}
-                <Link href="/examples/forms">email settings</Link>.
-              </FormDescription> */}
+              {/* <FormDescription>?</FormDescription> */}
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={isSubmitting}>
-          {/* Create User */}
-          {isSubmitting ? "Tworzenie..." : "Utwórz użytkownika"}
-        </Button>
+        <div className="flex justify-end pt-2">
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Saving..." : "Save changes"}
+          </Button>
+        </div>
       </form>
     </Form>
   )

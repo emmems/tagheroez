@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const userSchema = z.object({
+  id: z.string().optional(),
   fullName: z.string().min(2).max(50),
   username: z.string().min(2).max(50).regex(/^[a-zA-Z0-9_.]+$/),
   email: z.email(),

@@ -8,26 +8,30 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import type { Employee } from "@/src/api/gen/dashboard/v1/users_pb";
+import { rpcProvider, useMutation } from "@/src/api/rpc.provider";
 import { useState } from "react";
 import UserForm from "./user-form";
 import { UserFormData } from "./user-schema";
 
 interface UserFormDialogProps {
-  user?: Partial<UserFormData>;
+  user: Employee;
   children: React.ReactNode;
 }
 
 export function UserFormDialog({ user, children }: UserFormDialogProps) {
   const [open, setOpen] = useState(false);
 
-  const isEditMode = !!user;
+  const { mutateAsync: updateEmployeeMutation } = useMutation(rpcProvider.userRouter.updateEmployee);
 
   const handleFormSubmit = async (values: UserFormData) => {
-    if (isEditMode) {
-      console.log("Aktualizowanie użytkownika:", user.id, values);
-    } else {
-      console.log("Tworzenie nowego użytkownika:", values);
-    }
+    await updateEmployeeMutation({
+      id: values.id,
+      email: values.email,
+      role: values.role === "superadmin" ? 1 : 0,
+      // TODO ...
+    })
+
     setOpen(false);
   };
 
@@ -38,10 +42,8 @@ export function UserFormDialog({ user, children }: UserFormDialogProps) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{isEditMode ? "Edit User" : "Add New User"}</DialogTitle>
-          <DialogDescription>
-            {isEditMode ? "Zmień dane poniżej i zapisz zmiany." : "Create a new internal user account with appropriate role."}
-          </DialogDescription>
+          <DialogTitle>Edit User</DialogTitle>
+          <DialogDescription>Change the information below and save your changes.</DialogDescription>
         </DialogHeader>
         <UserForm initialData={user} onFormSubmit={handleFormSubmit} />
       </DialogContent>
