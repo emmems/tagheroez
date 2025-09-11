@@ -1,15 +1,16 @@
 import { Separator } from "@/components/ui/separator";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/sonner";
 import { RoleProvider } from "@/hooks/useRole";
 import { RoleHelper } from "@/src/api/role.helper";
 import { RpcProvider } from "@/src/api/tools/RpcProvider";
 import { db } from "@/src/db/database";
 import {
-  ClerkProvider,
-  RedirectToSignIn,
-  SignedIn,
-  SignedOut,
-  UserButton,
+    ClerkProvider,
+    RedirectToSignIn,
+    SignedIn,
+    SignedOut,
+    UserButton,
 } from "@clerk/nextjs";
 import { currentUser } from "@clerk/nextjs/server";
 import type { Metadata } from "next";
@@ -75,6 +76,8 @@ export default async function RootLayout({
                 </SidebarProvider>
               </RoleProvider>
             </SignedIn>
+
+            <Toaster position="top-center" richColors />
           </RpcProvider>
         </body>
       </html>
