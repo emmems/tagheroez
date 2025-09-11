@@ -20,6 +20,7 @@ import {
     UserPlus,
     Users,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -86,8 +87,9 @@ export function AppSidebar() {
 
   return (
     <Sidebar>
-      <SidebarHeader>
-        <h1 className="font-bold text-xl text-blue-900">JumpHeroez</h1>
+      <SidebarHeader className="mt-2 ml-2">
+        <Image src="/images/jump-heroez-logo-cropped.png" alt="JumpHeroez" width={150} height={75} />
+        <h1 className="sr-only">JumpHeroez</h1>
       </SidebarHeader>
       <SidebarContent>
         {navData.map((item) => (
