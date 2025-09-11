@@ -134,7 +134,7 @@ function InternalUsers() {
                )}
 
               {hasData && employees.map((item) =>
-                <TableRow key={item.email}>
+                <TableRow key={item.id}>
                   {/*<TableCell className="font-medium">{item.name}</TableCell>*/}
                   <TableCell className="font-medium">TEST</TableCell>
                   {/*<TableCell>{item.username}</TableCell>*/}
