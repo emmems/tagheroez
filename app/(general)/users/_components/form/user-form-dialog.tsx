@@ -41,11 +41,9 @@ export function UserFormDialog({ user, children }: UserFormDialogProps) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{isEditMode ? "Edit User" : "Add New User"}</DialogTitle>
+          <DialogTitle>Edit User</DialogTitle>
           <DialogDescription>
-            {isEditMode
-              ? "Zmień dane poniżej i zapisz zmiany."
-              : "Create a new internal user account with appropriate role."}
+            Change the information below and save your changes.
           </DialogDescription>
         </DialogHeader>
         <UserForm initialData={user} onFormSubmit={handleFormSubmit} />
