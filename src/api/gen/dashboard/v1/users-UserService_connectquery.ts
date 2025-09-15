@@ -16,6 +16,11 @@ export const getEmployees = UserService.method.getEmployees;
 export const updateEmployee = UserService.method.updateEmployee;
 
 /**
+ * @generated from rpc users.v1.UserService.InviteEmployee
+ */
+export const inviteEmployee = UserService.method.inviteEmployee;
+
+/**
  * @generated from rpc users.v1.UserService.CreateUser
  */
 export const createUser = UserService.method.createUser;

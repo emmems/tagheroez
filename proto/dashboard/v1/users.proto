@@ -9,7 +9,7 @@ service UserService {
 
   rpc GetEmployees(GetEmployeesRequest) returns (GetEmployeesResponse) {}
   rpc UpdateEmployee(UpdateEmployeeRequest) returns (google.protobuf.Empty) {}
-
+  rpc InviteEmployee(InviteEmployeeRequest) returns (google.protobuf.Empty) {}
 
   // Site users
 
@@ -18,6 +18,10 @@ service UserService {
   rpc DeleteUser(DeleteUserRequest) returns (google.protobuf.Empty) {}
   rpc GetUsers(GetUsersRequest) returns (GetUsersResponse) {}
   rpc GetUser(GetUserRequest) returns (GetUserResponse) {}
+}
+
+message InviteEmployeeRequest {
+    string email = 1;
 }
 
 message CreateUserRequest {

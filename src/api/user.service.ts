@@ -28,6 +28,7 @@ import {
   type GetEmployeesRequest,
   type GetUserRequest,
   type GetUsersRequest,
+  type InviteEmployeeRequest,
   type UpdateEmployeeRequest,
   type UpdateUserRequest,
 } from "./gen/dashboard/v1/users_pb";
@@ -35,6 +36,49 @@ import { RoleHelper } from "./role.helper";
 import { getCtx } from "./tools/auth";
 
 export const userService: ServiceImplementation<typeof UserService> = {
+
+  async inviteEmployee(req: InviteEmployeeRequest, context: HandlerContext) {
+
+
+    console.log('TODO: send invitation to new employeee');
+
+
+    return create(EmptySchema, {});
+  },
+
+  async getEmployee(id: string, context: HandlerContext) {
+    const ctx = getCtx(context);
+
+    const [employee, error] = await tryCatch(
+      ctx.db
+        .select({
+          id: employeesTable.id,
+          externalUserID: employeesTable.externalUserID,
+          lastLoginAt: employeesTable.lastLoginAt,
+          status: employeesTable.status,
+          role: employeesTable.role,
+        })
+        .from(employeesTable)
+        .where(eq(employeesTable.id, id)),
+    );
+
+    if (error) {
+      throw new ConnectError(Code.INTERNAL, error.message);
+    }
+
+    if (!employee) {
+      throw new ConnectError(Code.NOT_FOUND, 'Employee not found');
+    }
+
+    return {
+      id: employee.id,
+      externalUserID: employee.externalUserID,
+      lastLoginAt: employee.lastLoginAt,
+      status: employee.status,
+      role: employee.role,
+    };
+  }
+
   async getEmployees(req: GetEmployeesRequest, context: HandlerContext) {
     const ctx = getCtx(context);
 

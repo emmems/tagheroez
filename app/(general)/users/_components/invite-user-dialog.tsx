@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -9,8 +9,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { rpcProvider, useMutation } from "@/src/api/rpc.provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -18,7 +27,7 @@ import z from "zod";
 
 const newUserSchema = z.object({
   email: z.email(),
-})
+});
 
 type NewUserFormData = z.infer<typeof newUserSchema>;
 
@@ -27,33 +36,37 @@ interface InviteUserDialogProps {
 }
 
 export function InviteUserDialog({ children }: InviteUserDialogProps) {
+  const { mutateAsync: inviteUser } = useMutation(
+    rpcProvider.userRouter.inviteEmployee,
+  );
   const [open, setOpen] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<NewUserFormData>({
-      resolver: zodResolver(newUserSchema),
-      defaultValues: {
-        email: "",
-      },
-    })
+    resolver: zodResolver(newUserSchema),
+    defaultValues: {
+      email: "",
+    },
+  });
 
   async function onSubmit(values: NewUserFormData) {
-     setIsSubmitting(true);
-     try {
-       // await onFormSubmit(values);
-       // setOpen(false);
-     } catch (error) {
-       console.log("Error while sending invite", error);
-     } finally {
-       setIsSubmitting(false);
-     }
-   }
+    setIsSubmitting(true);
+    try {
+      await inviteUser({
+        email: values.email,
+      });
+      // await onFormSubmit(values);
+      setOpen(false);
+    } catch (error) {
+      console.log("Error while sending invite", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        {children}
-      </DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Invite User</DialogTitle>
