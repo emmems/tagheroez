@@ -2,35 +2,35 @@ import { ServiceImplementation } from "@/lib/service.implementation";
 import { tryCatch } from "@/lib/try.catch";
 import { create } from "@bufbuild/protobuf";
 import {
-  EmptySchema,
-  Timestamp,
-  TimestampSchema,
+    EmptySchema,
+    Timestamp,
+    TimestampSchema,
 } from "@bufbuild/protobuf/wkt";
 import { clerkClient } from "@clerk/nextjs/server";
 import { Code, ConnectError, HandlerContext } from "@connectrpc/connect";
 import { and, eq, ilike, inArray, or, type SQL } from "drizzle-orm";
 import {
-  employeesTable,
-  parentChildRelationshipTable,
-  siteUsersTable,
+    employeesTable,
+    parentChildRelationshipTable,
+    siteUsersTable,
 } from "../db/schema/schema";
 import {
-  CreateUserResponseSchema,
-  EmployeeRole,
-  EmployeeStatus,
-  GetEmployeesResponseSchema,
-  GetUserResponseSchema,
-  GetUsersResponseSchema,
-  UserRole,
-  UserService,
-  type CreateUserRequest,
-  type DeleteUserRequest,
-  type GetEmployeesRequest,
-  type GetUserRequest,
-  type GetUsersRequest,
-  type InviteEmployeeRequest,
-  type UpdateEmployeeRequest,
-  type UpdateUserRequest,
+    CreateUserResponseSchema,
+    EmployeeRole,
+    EmployeeStatus,
+    GetEmployeesResponseSchema,
+    GetUserResponseSchema,
+    GetUsersResponseSchema,
+    UserRole,
+    UserService,
+    type CreateUserRequest,
+    type DeleteUserRequest,
+    type GetEmployeesRequest,
+    type GetUserRequest,
+    type GetUsersRequest,
+    type InviteEmployeeRequest,
+    type UpdateEmployeeRequest,
+    type UpdateUserRequest,
 } from "./gen/dashboard/v1/users_pb";
 import { RoleHelper } from "./role.helper";
 import { getCtx } from "./tools/auth";
@@ -77,7 +77,7 @@ export const userService: ServiceImplementation<typeof UserService> = {
       status: employee.status,
       role: employee.role,
     };
-  }
+  },
 
   async getEmployees(req: GetEmployeesRequest, context: HandlerContext) {
     const ctx = getCtx(context);
