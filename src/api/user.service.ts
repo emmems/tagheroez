@@ -2,82 +2,79 @@ import { ServiceImplementation } from "@/lib/service.implementation";
 import { tryCatch } from "@/lib/try.catch";
 import { create } from "@bufbuild/protobuf";
 import {
-    EmptySchema,
-    Timestamp,
-    TimestampSchema,
+  EmptySchema,
+  Timestamp,
+  TimestampSchema,
 } from "@bufbuild/protobuf/wkt";
 import { clerkClient } from "@clerk/nextjs/server";
 import { Code, ConnectError, HandlerContext } from "@connectrpc/connect";
 import { and, eq, ilike, inArray, or, type SQL } from "drizzle-orm";
 import {
-    employeesTable,
-    parentChildRelationshipTable,
-    siteUsersTable,
+  employeesTable,
+  parentChildRelationshipTable,
+  siteUsersTable,
 } from "../db/schema/schema";
 import {
-    CreateUserResponseSchema,
-    EmployeeRole,
-    EmployeeStatus,
-    GetEmployeesResponseSchema,
-    GetUserResponseSchema,
-    GetUsersResponseSchema,
-    UserRole,
-    UserService,
-    type CreateUserRequest,
-    type DeleteUserRequest,
-    type GetEmployeesRequest,
-    type GetUserRequest,
-    type GetUsersRequest,
-    type InviteEmployeeRequest,
-    type UpdateEmployeeRequest,
-    type UpdateUserRequest,
+  CreateUserResponseSchema,
+  EmployeeRole,
+  EmployeeStatus,
+  GetEmployeesResponseSchema,
+  GetUserResponseSchema,
+  GetUsersResponseSchema,
+  UserDetailsSchema,
+  UserRole,
+  UserService,
+  type CreateUserRequest,
+  type DeleteUserRequest,
+  type GetEmployeesRequest,
+  type GetUserRequest,
+  type GetUsersRequest,
+  type InviteEmployeeRequest,
+  type UpdateEmployeeRequest,
+  type UpdateUserRequest,
 } from "./gen/dashboard/v1/users_pb";
 import { RoleHelper } from "./role.helper";
 import { getCtx } from "./tools/auth";
 
 export const userService: ServiceImplementation<typeof UserService> = {
-
   async inviteEmployee(req: InviteEmployeeRequest, context: HandlerContext) {
-
-
-    console.log('TODO: send invitation to new employeee');
-
+    console.log("TODO: send invitation to new employeee");
 
     return create(EmptySchema, {});
   },
 
-  async getEmployee(id: string, context: HandlerContext) {
-    const ctx = getCtx(context);
+  // async getEmployee(id: string, context: HandlerContext) {
+  //   const ctx = getCtx(context);
 
-    const [employee, error] = await tryCatch(
-      ctx.db
-        .select({
-          id: employeesTable.id,
-          externalUserID: employeesTable.externalUserID,
-          lastLoginAt: employeesTable.lastLoginAt,
-          status: employeesTable.status,
-          role: employeesTable.role,
-        })
-        .from(employeesTable)
-        .where(eq(employeesTable.id, id)),
-    );
+  //   const [employee, error] = await tryCatch(
+  //     ctx.db
+  //       .select({
+  //         id: employeesTable.id,
+  //         externalUserID: employeesTable.externalUserID,
+  //         lastLoginAt: employeesTable.lastLoginAt,
+  //         status: employeesTable.status,
+  //         role: employeesTable.role,
+  //       })
+  //       .from(employeesTable)
+  //       .where(eq(employeesTable.id, id)),
+  //   );
 
-    if (error) {
-      throw new ConnectError(Code.INTERNAL, error.message);
-    }
+  //   if (error) {
+  //     throw new ConnectError(Code.INTERNAL, error.message);
+  //   }
 
-    if (!employee) {
-      throw new ConnectError(Code.NOT_FOUND, 'Employee not found');
-    }
+  //   if (!employee) {
+  //     throw new ConnectError(Code.NOT_FOUND, "Employee not found");
+  //   }
 
-    return {
-      id: employee.id,
-      externalUserID: employee.externalUserID,
-      lastLoginAt: employee.lastLoginAt,
-      status: employee.status,
-      role: employee.role,
-    };
-  },
+  //   return {
+  //     id: employee.id,
+  //     externalUserID: employee.externalUserID,
+  //     lastLoginAt: employee.lastLoginAt,
+  //     status: employee.status,
+  //     role: employee.role,
+  //   };
+  // },
 
   async getEmployees(req: GetEmployeesRequest, context: HandlerContext) {
     const ctx = getCtx(context);
@@ -280,6 +277,7 @@ export const userService: ServiceImplementation<typeof UserService> = {
       name: string;
       email: string;
       role: "parent" | "player";
+      details: unknown;
       updatedAt: Date;
     }> = {
       updatedAt: new Date(),
@@ -296,6 +294,10 @@ export const userService: ServiceImplementation<typeof UserService> = {
     if (req.updateUser.role !== undefined) {
       updateData.role =
         req.updateUser.role === UserRole.PARENT ? "parent" : "player";
+    }
+
+    if (req.updateUser.details != null) {
+      updateData.details = req.updateUser.details;
     }
 
     const [, updateError] = await tryCatch(
@@ -455,6 +457,7 @@ export const userService: ServiceImplementation<typeof UserService> = {
         email: user.email || undefined,
         role: user.role === "parent" ? UserRole.PARENT : UserRole.PLAYER,
         parentsId: parentsByChild[user.id] || [],
+        details: undefined, // when getting list of users we will not return details. Please use the getUser endpoint to get details.
         lastActiveAt: optionalDateToTimestamp(user.lastLoginAt || undefined),
       })),
     });
@@ -470,6 +473,7 @@ export const userService: ServiceImplementation<typeof UserService> = {
           id: siteUsersTable.id,
           name: siteUsersTable.name,
           email: siteUsersTable.email,
+          details: siteUsersTable.details,
           role: siteUsersTable.role,
           lastLoginAt: siteUsersTable.lastLoginAt,
         })
@@ -513,6 +517,8 @@ export const userService: ServiceImplementation<typeof UserService> = {
         email: userData.email || undefined,
         role: userData.role === "parent" ? UserRole.PARENT : UserRole.PLAYER,
         parentsId: parentIds,
+        // @ts-ignore
+        details: create(UserDetailsSchema, userData.details),
         lastActiveAt: optionalDateToTimestamp(
           userData.lastLoginAt || undefined,
         ),

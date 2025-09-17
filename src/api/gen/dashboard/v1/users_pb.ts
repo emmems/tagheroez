@@ -13,7 +13,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file proto/dashboard/v1/users.proto.
  */
 export const file_proto_dashboard_v1_users: GenFile = /*@__PURE__*/
-  fileDesc("Ch5wcm90by9kYXNoYm9hcmQvdjEvdXNlcnMucHJvdG8SCHVzZXJzLnYxIiYKFUludml0ZUVtcGxveWVlUmVxdWVzdBINCgVlbWFpbBgBIAEoCSJ1ChFDcmVhdGVVc2VyUmVxdWVzdBIMCgRuYW1lGAEgASgJEhIKBWVtYWlsGAIgASgJSACIAQESIAoEcm9sZRgDIAEoDjISLnVzZXJzLnYxLlVzZXJSb2xlEhIKCnBhcmVudHNfaWQYBCADKAlCCAoGX2VtYWlsIiAKEkNyZWF0ZVVzZXJSZXNwb25zZRIKCgJpZBgBIAEoCSJfCgpDcmVhdGVVc2VyEgwKBG5hbWUYASABKAkSDQoFZW1haWwYAiABKAkSIAoEcm9sZRgDIAEoDjISLnVzZXJzLnYxLlVzZXJSb2xlEhIKCnBhcmVudHNfaWQYBCADKAkiHwoRRGVsZXRlVXNlclJlcXVlc3QSCgoCaWQYASABKAkiSgoRVXBkYXRlVXNlclJlcXVlc3QSCgoCaWQYASABKAkSKQoLdXBkYXRlX3VzZXIYAiABKAsyFC51c2Vycy52MS5VcGRhdGVVc2VyIhwKDkdldFVzZXJSZXF1ZXN0EgoKAmlkGAEgASgJIi8KD0dldFVzZXJSZXNwb25zZRIcCgR1c2VyGAEgASgLMg4udXNlcnMudjEuVXNlciJTCg9HZXRVc2Vyc1JlcXVlc3QSEwoGc2VhcmNoGAEgASgJSACIAQESIAoEcm9sZRgCIAEoDjISLnVzZXJzLnYxLlVzZXJSb2xlQgkKB19zZWFyY2giMQoQR2V0VXNlcnNSZXNwb25zZRIdCgV1c2VycxgBIAMoCzIOLnVzZXJzLnYxLlVzZXIiigEKClVwZGF0ZVVzZXISEQoEbmFtZRgCIAEoCUgAiAEBEhIKBWVtYWlsGAMgASgJSAGIAQESJQoEcm9sZRgEIAEoDjISLnVzZXJzLnYxLlVzZXJSb2xlSAKIAQESEgoKcGFyZW50c19pZBgFIAMoCUIHCgVfbmFtZUIICgZfZW1haWxCBwoFX3JvbGUiwAEKBFVzZXISCgoCaWQYASABKAkSDAoEbmFtZRgCIAEoCRISCgVlbWFpbBgDIAEoCUgAiAEBEiAKBHJvbGUYBCABKA4yEi51c2Vycy52MS5Vc2VyUm9sZRISCgpwYXJlbnRzX2lkGAUgAygJEjcKDmxhc3RfYWN0aXZlX2F0GAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcEgBiAEBQggKBl9lbWFpbEIRCg9fbGFzdF9hY3RpdmVfYXQiqQEKCEVtcGxveWVlEgoKAmlkGAEgASgJEg0KBWVtYWlsGAMgASgJEigKBnN0YXR1cxgEIAEoDjIYLnVzZXJzLnYxLkVtcGxveWVlU3RhdHVzEiQKBHJvbGUYBSABKA4yFi51c2Vycy52MS5FbXBsb3llZVJvbGUSMgoObGFzdF9hY3RpdmVfYXQYBiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wIq8BChVVcGRhdGVFbXBsb3llZVJlcXVlc3QSCgoCaWQYASABKAkSEgoFZW1haWwYAiABKAlIAIgBARItCgZzdGF0dXMYAyABKA4yGC51c2Vycy52MS5FbXBsb3llZVN0YXR1c0gBiAEBEikKBHJvbGUYBCABKA4yFi51c2Vycy52MS5FbXBsb3llZVJvbGVIAogBAUIICgZfZW1haWxCCQoHX3N0YXR1c0IHCgVfcm9sZSI1ChNHZXRFbXBsb3llZXNSZXF1ZXN0EhMKBnNlYXJjaBgBIAEoCUgAiAEBQgkKB19zZWFyY2giPQoUR2V0RW1wbG95ZWVzUmVzcG9uc2USJQoJZW1wbG95ZWVzGAEgAygLMhIudXNlcnMudjEuRW1wbG95ZWUqIgoIVXNlclJvbGUSCgoGUEFSRU5UEAASCgoGUExBWUVSEAEqKgoORW1wbG95ZWVTdGF0dXMSCgoGQUNUSVZFEAASDAoISU5BQ1RJVkUQASoqCgxFbXBsb3llZVJvbGUSCQoFQURNSU4QABIPCgtTVVBFUl9BRE1JThABMtQECgtVc2VyU2VydmljZRJPCgxHZXRFbXBsb3llZXMSHS51c2Vycy52MS5HZXRFbXBsb3llZXNSZXF1ZXN0Gh4udXNlcnMudjEuR2V0RW1wbG95ZWVzUmVzcG9uc2UiABJLCg5VcGRhdGVFbXBsb3llZRIfLnVzZXJzLnYxLlVwZGF0ZUVtcGxveWVlUmVxdWVzdBoWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eSIAEksKDkludml0ZUVtcGxveWVlEh8udXNlcnMudjEuSW52aXRlRW1wbG95ZWVSZXF1ZXN0GhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5IgASSQoKQ3JlYXRlVXNlchIbLnVzZXJzLnYxLkNyZWF0ZVVzZXJSZXF1ZXN0GhwudXNlcnMudjEuQ3JlYXRlVXNlclJlc3BvbnNlIgASQwoKVXBkYXRlVXNlchIbLnVzZXJzLnYxLlVwZGF0ZVVzZXJSZXF1ZXN0GhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5IgASQwoKRGVsZXRlVXNlchIbLnVzZXJzLnYxLkRlbGV0ZVVzZXJSZXF1ZXN0GhYuZ29vZ2xlLnByb3RvYnVmLkVtcHR5IgASQwoIR2V0VXNlcnMSGS51c2Vycy52MS5HZXRVc2Vyc1JlcXVlc3QaGi51c2Vycy52MS5HZXRVc2Vyc1Jlc3BvbnNlIgASQAoHR2V0VXNlchIYLnVzZXJzLnYxLkdldFVzZXJSZXF1ZXN0GhkudXNlcnMudjEuR2V0VXNlclJlc3BvbnNlIgBiBnByb3RvMw", [file_google_protobuf_empty, file_google_protobuf_timestamp]);
+  fileDesc("Ch5wcm90by9kYXNoYm9hcmQvdjEvdXNlcnMucHJvdG8SCHVzZXJzLnYxIiYKFUludml0ZUVtcGxveWVlUmVxdWVzdBINCgVlbWFpbBgBIAEoCSJ1ChFDcmVhdGVVc2VyUmVxdWVzdBIMCgRuYW1lGAEgASgJEhIKBWVtYWlsGAIgASgJSACIAQESIAoEcm9sZRgDIAEoDjISLnVzZXJzLnYxLlVzZXJSb2xlEhIKCnBhcmVudHNfaWQYBCADKAlCCAoGX2VtYWlsIiAKEkNyZWF0ZVVzZXJSZXNwb25zZRIKCgJpZBgBIAEoCSJfCgpDcmVhdGVVc2VyEgwKBG5hbWUYASABKAkSDQoFZW1haWwYAiABKAkSIAoEcm9sZRgDIAEoDjISLnVzZXJzLnYxLlVzZXJSb2xlEhIKCnBhcmVudHNfaWQYBCADKAkiHwoRRGVsZXRlVXNlclJlcXVlc3QSCgoCaWQYASABKAkiSgoRVXBkYXRlVXNlclJlcXVlc3QSCgoCaWQYASABKAkSKQoLdXBkYXRlX3VzZXIYAiABKAsyFC51c2Vycy52MS5VcGRhdGVVc2VyIhwKDkdldFVzZXJSZXF1ZXN0EgoKAmlkGAEgASgJIi8KD0dldFVzZXJSZXNwb25zZRIcCgR1c2VyGAEgASgLMg4udXNlcnMudjEuVXNlciJTCg9HZXRVc2Vyc1JlcXVlc3QSEwoGc2VhcmNoGAEgASgJSACIAQESIAoEcm9sZRgCIAEoDjISLnVzZXJzLnYxLlVzZXJSb2xlQgkKB19zZWFyY2giMQoQR2V0VXNlcnNSZXNwb25zZRIdCgV1c2VycxgBIAMoCzIOLnVzZXJzLnYxLlVzZXIikQEKC1VzZXJEZXRhaWxzEhUKCG5pY2tuYW1lGAEgASgJSACIAQESHAoUcHJlZmVycmVkX2FjdGl2aXRpZXMYAiADKAkSFQoIYmlydGhkYXkYAyABKAlIAYgBARISCgVub3RlcxgEIAEoCUgCiAEBQgsKCV9uaWNrbmFtZUILCglfYmlydGhkYXlCCAoGX25vdGVzIsMBCgpVcGRhdGVVc2VyEhEKBG5hbWUYAiABKAlIAIgBARISCgVlbWFpbBgDIAEoCUgBiAEBEiUKBHJvbGUYBCABKA4yEi51c2Vycy52MS5Vc2VyUm9sZUgCiAEBEhIKCnBhcmVudHNfaWQYBSADKAkSKwoHZGV0YWlscxgGIAEoCzIVLnVzZXJzLnYxLlVzZXJEZXRhaWxzSAOIAQFCBwoFX25hbWVCCAoGX2VtYWlsQgcKBV9yb2xlQgoKCF9kZXRhaWxzIvkBCgRVc2VyEgoKAmlkGAEgASgJEgwKBG5hbWUYAiABKAkSEgoFZW1haWwYAyABKAlIAIgBARIgCgRyb2xlGAQgASgOMhIudXNlcnMudjEuVXNlclJvbGUSEgoKcGFyZW50c19pZBgFIAMoCRI3Cg5sYXN0X2FjdGl2ZV9hdBgGIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBIAYgBARIrCgdkZXRhaWxzGAcgASgLMhUudXNlcnMudjEuVXNlckRldGFpbHNIAogBAUIICgZfZW1haWxCEQoPX2xhc3RfYWN0aXZlX2F0QgoKCF9kZXRhaWxzIqkBCghFbXBsb3llZRIKCgJpZBgBIAEoCRINCgVlbWFpbBgDIAEoCRIoCgZzdGF0dXMYBCABKA4yGC51c2Vycy52MS5FbXBsb3llZVN0YXR1cxIkCgRyb2xlGAUgASgOMhYudXNlcnMudjEuRW1wbG95ZWVSb2xlEjIKDmxhc3RfYWN0aXZlX2F0GAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcCKvAQoVVXBkYXRlRW1wbG95ZWVSZXF1ZXN0EgoKAmlkGAEgASgJEhIKBWVtYWlsGAIgASgJSACIAQESLQoGc3RhdHVzGAMgASgOMhgudXNlcnMudjEuRW1wbG95ZWVTdGF0dXNIAYgBARIpCgRyb2xlGAQgASgOMhYudXNlcnMudjEuRW1wbG95ZWVSb2xlSAKIAQFCCAoGX2VtYWlsQgkKB19zdGF0dXNCBwoFX3JvbGUiNQoTR2V0RW1wbG95ZWVzUmVxdWVzdBITCgZzZWFyY2gYASABKAlIAIgBAUIJCgdfc2VhcmNoIj0KFEdldEVtcGxveWVlc1Jlc3BvbnNlEiUKCWVtcGxveWVlcxgBIAMoCzISLnVzZXJzLnYxLkVtcGxveWVlKiIKCFVzZXJSb2xlEgoKBlBBUkVOVBAAEgoKBlBMQVlFUhABKioKDkVtcGxveWVlU3RhdHVzEgoKBkFDVElWRRAAEgwKCElOQUNUSVZFEAEqKgoMRW1wbG95ZWVSb2xlEgkKBUFETUlOEAASDwoLU1VQRVJfQURNSU4QATLUBAoLVXNlclNlcnZpY2USTwoMR2V0RW1wbG95ZWVzEh0udXNlcnMudjEuR2V0RW1wbG95ZWVzUmVxdWVzdBoeLnVzZXJzLnYxLkdldEVtcGxveWVlc1Jlc3BvbnNlIgASSwoOVXBkYXRlRW1wbG95ZWUSHy51c2Vycy52MS5VcGRhdGVFbXBsb3llZVJlcXVlc3QaFi5nb29nbGUucHJvdG9idWYuRW1wdHkiABJLCg5JbnZpdGVFbXBsb3llZRIfLnVzZXJzLnYxLkludml0ZUVtcGxveWVlUmVxdWVzdBoWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eSIAEkkKCkNyZWF0ZVVzZXISGy51c2Vycy52MS5DcmVhdGVVc2VyUmVxdWVzdBocLnVzZXJzLnYxLkNyZWF0ZVVzZXJSZXNwb25zZSIAEkMKClVwZGF0ZVVzZXISGy51c2Vycy52MS5VcGRhdGVVc2VyUmVxdWVzdBoWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eSIAEkMKCkRlbGV0ZVVzZXISGy51c2Vycy52MS5EZWxldGVVc2VyUmVxdWVzdBoWLmdvb2dsZS5wcm90b2J1Zi5FbXB0eSIAEkMKCEdldFVzZXJzEhkudXNlcnMudjEuR2V0VXNlcnNSZXF1ZXN0GhoudXNlcnMudjEuR2V0VXNlcnNSZXNwb25zZSIAEkAKB0dldFVzZXISGC51c2Vycy52MS5HZXRVc2VyUmVxdWVzdBoZLnVzZXJzLnYxLkdldFVzZXJSZXNwb25zZSIAYgZwcm90bzM", [file_google_protobuf_empty, file_google_protobuf_timestamp]);
 
 /**
  * @generated from message users.v1.InviteEmployeeRequest
@@ -226,6 +226,38 @@ export const GetUsersResponseSchema: GenMessage<GetUsersResponse> = /*@__PURE__*
   messageDesc(file_proto_dashboard_v1_users, 9);
 
 /**
+ * @generated from message users.v1.UserDetails
+ */
+export type UserDetails = Message<"users.v1.UserDetails"> & {
+  /**
+   * @generated from field: optional string nickname = 1;
+   */
+  nickname?: string;
+
+  /**
+   * @generated from field: repeated string preferred_activities = 2;
+   */
+  preferredActivities: string[];
+
+  /**
+   * @generated from field: optional string birthday = 3;
+   */
+  birthday?: string;
+
+  /**
+   * @generated from field: optional string notes = 4;
+   */
+  notes?: string;
+};
+
+/**
+ * Describes the message users.v1.UserDetails.
+ * Use `create(UserDetailsSchema)` to create a new message.
+ */
+export const UserDetailsSchema: GenMessage<UserDetails> = /*@__PURE__*/
+  messageDesc(file_proto_dashboard_v1_users, 10);
+
+/**
  * @generated from message users.v1.UpdateUser
  */
 export type UpdateUser = Message<"users.v1.UpdateUser"> & {
@@ -248,6 +280,11 @@ export type UpdateUser = Message<"users.v1.UpdateUser"> & {
    * @generated from field: repeated string parents_id = 5;
    */
   parentsId: string[];
+
+  /**
+   * @generated from field: optional users.v1.UserDetails details = 6;
+   */
+  details?: UserDetails;
 };
 
 /**
@@ -255,7 +292,7 @@ export type UpdateUser = Message<"users.v1.UpdateUser"> & {
  * Use `create(UpdateUserSchema)` to create a new message.
  */
 export const UpdateUserSchema: GenMessage<UpdateUser> = /*@__PURE__*/
-  messageDesc(file_proto_dashboard_v1_users, 10);
+  messageDesc(file_proto_dashboard_v1_users, 11);
 
 /**
  * @generated from message users.v1.User
@@ -290,6 +327,11 @@ export type User = Message<"users.v1.User"> & {
    * @generated from field: optional google.protobuf.Timestamp last_active_at = 6;
    */
   lastActiveAt?: Timestamp;
+
+  /**
+   * @generated from field: optional users.v1.UserDetails details = 7;
+   */
+  details?: UserDetails;
 };
 
 /**
@@ -297,7 +339,7 @@ export type User = Message<"users.v1.User"> & {
  * Use `create(UserSchema)` to create a new message.
  */
 export const UserSchema: GenMessage<User> = /*@__PURE__*/
-  messageDesc(file_proto_dashboard_v1_users, 11);
+  messageDesc(file_proto_dashboard_v1_users, 12);
 
 /**
  * @generated from message users.v1.Employee
@@ -334,7 +376,7 @@ export type Employee = Message<"users.v1.Employee"> & {
  * Use `create(EmployeeSchema)` to create a new message.
  */
 export const EmployeeSchema: GenMessage<Employee> = /*@__PURE__*/
-  messageDesc(file_proto_dashboard_v1_users, 12);
+  messageDesc(file_proto_dashboard_v1_users, 13);
 
 /**
  * @generated from message users.v1.UpdateEmployeeRequest
@@ -366,7 +408,7 @@ export type UpdateEmployeeRequest = Message<"users.v1.UpdateEmployeeRequest"> & 
  * Use `create(UpdateEmployeeRequestSchema)` to create a new message.
  */
 export const UpdateEmployeeRequestSchema: GenMessage<UpdateEmployeeRequest> = /*@__PURE__*/
-  messageDesc(file_proto_dashboard_v1_users, 13);
+  messageDesc(file_proto_dashboard_v1_users, 14);
 
 /**
  * @generated from message users.v1.GetEmployeesRequest
@@ -383,7 +425,7 @@ export type GetEmployeesRequest = Message<"users.v1.GetEmployeesRequest"> & {
  * Use `create(GetEmployeesRequestSchema)` to create a new message.
  */
 export const GetEmployeesRequestSchema: GenMessage<GetEmployeesRequest> = /*@__PURE__*/
-  messageDesc(file_proto_dashboard_v1_users, 14);
+  messageDesc(file_proto_dashboard_v1_users, 15);
 
 /**
  * @generated from message users.v1.GetEmployeesResponse
@@ -400,7 +442,7 @@ export type GetEmployeesResponse = Message<"users.v1.GetEmployeesResponse"> & {
  * Use `create(GetEmployeesResponseSchema)` to create a new message.
  */
 export const GetEmployeesResponseSchema: GenMessage<GetEmployeesResponse> = /*@__PURE__*/
-  messageDesc(file_proto_dashboard_v1_users, 15);
+  messageDesc(file_proto_dashboard_v1_users, 16);
 
 /**
  * @generated from enum users.v1.UserRole

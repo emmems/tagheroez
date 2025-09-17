@@ -1,6 +1,7 @@
 import {
   foreignKey,
   integer,
+  jsonb,
   pgEnum,
   pgTable,
   primaryKey,
@@ -37,6 +38,9 @@ export const siteUsersTable = pgTable("site_users", {
   passwordHash: varchar("password_hash", { length: 255 }),
   role: siteUserRoleEnum().notNull(),
   email: varchar({ length: 255 }).unique(),
+
+  details: jsonb("details"),
+
   lastLoginAt: timestamp("last_login_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),

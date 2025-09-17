@@ -36,6 +36,13 @@
       "when": 1757519281023,
       "tag": "0004_glamorous_paladin",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1758126870717,
+      "tag": "0005_goofy_rawhide_kid",
+      "breakpoints": true
     }
   ]
 }
