@@ -4,6 +4,7 @@ import { TableSkeleton } from "@/components/table-skeleton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import type { User } from "@/src/api/gen/dashboard/v1/users_pb";
+import PlayerActionsCell from "../player-actions-cell";
 
 interface PlayersTableProps {
   players: User[];
@@ -61,22 +62,18 @@ function PlayersTable({ players, isPlayersLoading } : PlayersTableProps) {
 
                {hasData && players.map((item) =>
                 <TableRow key={item.id}>
-                  <TableCell className="font-medium">{item.name}</TableCell>
-                  <TableCell>{item.email}</TableCell>
-                  {/*<TableCell>{item.username}</TableCell>*/}
-                  <TableCell>+48 123 456 789</TableCell>
+                  {/*<TableCell className="font-medium">{item.details?.nickname}</TableCell>*/}
+                  <TableCell className="font-medium">Test</TableCell>
+                  <TableCell>{item.name}</TableCell>
+                  <TableCell>12/07/2001</TableCell>
+                  <TableCell>Piotr Nowak</TableCell>
                   <TableCell>
                     2
                     {/*{getRoleView(item.role)}*/}
                   </TableCell>
-                  {/*<TableCell>{getLastLoginView(item.lastActiveAt)}</TableCell>*/}
-                  <TableCell>4/15/2023</TableCell>
-                  <TableCell>
-                    -
-                    {/*{getStatusView(item.status)}*/}
-                  </TableCell>
                   <TableCell className="text-right">
                     {/*<UserActionsCell user={item} updateUser={setEmployees} />*/}
+                    <PlayerActionsCell player={item} />
                   </TableCell>
                 </TableRow>
               )}

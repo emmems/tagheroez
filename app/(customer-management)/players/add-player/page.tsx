@@ -1,17 +1,24 @@
 import SectionTitle from "@/components/section-title"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
+import Link from "next/link"
 import PlayerForm from "../_components/form/player-form"
 
-function PlayersPage() {
+async function PlayersPage({ params }: { params: Promise<{ id: string; }>}) {
+  const { id } = await params;
+
+  // TODO - pobrać te dane
+
   return (
     <>
       <SectionTitle
         title="Add New Player"
         backButton={
-          <Button variant="ghost">
-            <ArrowLeft />
-            Back to Players
+          <Button asChild variant="ghost">
+            <Link href="/players">
+              <ArrowLeft />
+              Back to Players
+            </Link>
           </Button>
         }
       />

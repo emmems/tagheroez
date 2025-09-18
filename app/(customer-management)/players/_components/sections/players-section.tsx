@@ -25,6 +25,9 @@ function PlayersSection() {
      isFetching: isPlayersLoading,
    } = useQuery(
      rpcProvider.userRouter.getUsers,
+     {
+       role: 1,
+     }
      // TODO fix later
      // {
      //   search: String(params.search ?? ''),

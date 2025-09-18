@@ -9,60 +9,108 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
+import type { User } from "@/src/api/gen/dashboard/v1/users_pb";
+import { rpcProvider, useMutation } from "@/src/api/rpc.provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { ImageUploadMock } from "./image-upload-mock";
 import { PlayerFormData, playerSchema } from "./player-schema";
 
 interface PlayerFormProps {
-  initialData?: Partial<PlayerFormData>;
-  onFormSubmit: (values: PlayerFormData) => Promise<void>;
+  initialData?: User;
+  // onFormSubmit?: (values: PlayerFormData) => Promise<void>;
 }
 
-function PlayerForm({ initialData, onFormSubmit }: PlayerFormProps) {
-  // const [isSubmitting, setIsSubmitting] = useState(false);
-
+// onFormSubmit
+function PlayerForm({ initialData }: PlayerFormProps) {
+  const router = useRouter();
   const isEditMode = !!initialData;
 
   const form = useForm<PlayerFormData>({
       resolver: zodResolver(playerSchema),
       defaultValues: {
         id: initialData?.id,
-        parentId: initialData?.parentId,
-        nickname: initialData?.nickname ?? "",
-        fullName: initialData?.fullName ?? "",
-        birthday: initialData?.birthday,
-        gamePreferences: initialData?.gamePreferences ?? "",
-        notes: initialData?.notes ?? "",
+        parentId: "", // TODO - initialData?.parentsId
+        nickname: initialData?.details?.nickname ?? "",
+        fullName: initialData?.name ?? "",
+        birthday: undefined, // TODO - initialData?.details?.birthday
+        gamePreferences: "", // TODO - initialData?.details?.preferredActivities
+        notes: initialData?.details?.notes ?? "",
       },
     })
 
+  // const [isSubmitting, setIsSubmitting] = useState(false);
   const { isSubmitting } = form.formState;
 
-  // async function onSubmit(values: PlayerFormData) {
-  //    setIsSubmitting(true);
-  //    try {
-  //      await onFormSubmit(values);
-  //    } catch (error) {
-  //      console.log("Error while creating player", error);
-  //    } finally {
-  //      setIsSubmitting(false);
-  //    }
-  // }
+  const { mutateAsync: createPlayerMutation } = useMutation(rpcProvider.userRouter.createUser);
+  const { mutateAsync: updatePlayerMutation } = useMutation(rpcProvider.userRouter.updateUser);
+
+  const handleFormSubmit = async (values: PlayerFormData) => {
+    if (isEditMode) {
+      await updatePlayerMutation({
+        id: values.id,
+        // TODO ...
+        updateUser: {
+          name: values.fullName,
+          details: {
+            nickname: values.nickname,
+            notes: values.notes ?? undefined
+          }
+        }
+      })
+    } else {
+      await createPlayerMutation({
+        name: values.fullName,
+        // TODO - details update :()
+        role: 1 // UserRole.Player
+      })
+    }
+
+    router.push('/players');
+  };
 
   async function onSubmit(values: PlayerFormData) {
+    //    setIsSubmitting(true);
     try {
-      await onFormSubmit(values);
+      await handleFormSubmit(values);
+
+      toast.success(isEditMode ? "The changes have been saved." : "New player created.")
     } catch (error) {
       console.log("Error while submitting player form", error);
+      toast.error("Something gone wrong.")
     }
+    //    } finally {
+    //      setIsSubmitting(false);
+    //    }
   }
 
   const parents = [
       { id: 'parent-1', name: 'John Doe' },
       { id: 'parent-2', name: 'Jane Smith' },
+      { id: 'parent-3', name: 'Jane Smith' },
+      { id: 'parent-4', name: 'Jane Smith' },
+      { id: 'parent-5', name: 'Jane Smith' },
+      { id: 'parent-6', name: 'Jane Smith' },
+      { id: 'parent-7', name: 'Jane Smith' },
+      { id: 'parent-8', name: 'Jane Smith' },
+      { id: 'parent-9', name: 'Jane Smith' },
+      { id: 'parent-10', name: 'Jane Smith' },
+      { id: 'parent-11', name: 'Jane Smith' },
+      { id: 'parent-12', name: 'Jane Smith' },
+      { id: 'parent-122', name: 'Jane Smith' },
+      { id: 'parent-13', name: 'Jane Smith' },
+      { id: 'parent-14', name: 'Jane Smith' },
+      { id: 'parent-15', name: 'Jane Smith' },
+      { id: 'parent-16', name: 'Jane Smith' },
+      { id: 'parent-17', name: 'Jane Smith' },
+      { id: 'parent-18', name: 'Jane Smith' },
+      { id: 'parent-19', name: 'Jane Smith' },
+      { id: 'parent-20', name: 'Jane Smith' },
+      { id: 'parent-21', name: 'Jane Smith' },
     ];
 
   return (
@@ -88,7 +136,7 @@ function PlayerForm({ initialData, onFormSubmit }: PlayerFormProps) {
                         <SelectValue placeholder="Select a parent/guardian" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent className="max-h-[250px]">
                       {parents.map(parent => (
                         <SelectItem key={parent.id} value={parent.id}>{parent.name}</SelectItem>
                       ))}
@@ -167,7 +215,7 @@ function PlayerForm({ initialData, onFormSubmit }: PlayerFormProps) {
                         selected={field.value}
                         onSelect={field.onChange}
                         disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
-                        initialFocus
+                        // initialFocus
                       />
                     </PopoverContent>
                   </Popover>
