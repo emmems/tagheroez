@@ -1,9 +1,10 @@
+import { UserFormDialog } from "@/app/(general)/users/_components/form/user-form-dialog";
 import { Button } from "@/components/ui/button";
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { Employee } from "@/src/api/gen/dashboard/v1/users_pb";
 import { rpcProvider, useMutation } from "@/src/api/rpc.provider";
@@ -18,10 +19,8 @@ interface ParentActionsCellProps {
 }
 
 function ParentActionsCell({ user, updateUser }: ParentActionsCellProps) {
-  const {
-    mutateAsync: updateEmployee,
-    isPending: isUpdatingEmployee
-  } = useMutation(rpcProvider.userRouter.updateEmployee)
+  const { mutateAsync: updateEmployee, isPending: isUpdatingEmployee } =
+    useMutation(rpcProvider.userRouter.updateEmployee);
 
   async function handleToggleActivation() {
     const newStatus = user.status === 0 ? 1 : 0; // 'Inactive' : 'Active'
@@ -44,17 +43,20 @@ function ParentActionsCell({ user, updateUser }: ParentActionsCellProps) {
     try {
       await updateEmployee({ id: user.id, status: newStatus });
 
-      toast.success("The changes have been saved.")
+      toast.success("The changes have been saved.");
     } catch (error) {
-      console.error("Nie udało się zaktualizować użytkownika, przywracam stan.", error);
+      console.error(
+        "Nie udało się zaktualizować użytkownika, przywracam stan.",
+        error,
+      );
 
       updateUser(originalUsers);
 
       toast.error("Something gone wrong.", {
         description: "The changes could not be saved.",
-      })
+      });
     }
-  };
+  }
 
   return (
     <DropdownMenu>
@@ -74,7 +76,7 @@ function ParentActionsCell({ user, updateUser }: ParentActionsCellProps) {
 
         <DropdownMenuItem onClick={handleToggleActivation}>
           <Power className="mr-2 h-4 w-4" />
-          <span>{user.status === 0 ? 'Deactivate' : 'Active'}</span>
+          <span>{user.status === 0 ? "Deactivate" : "Active"}</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
