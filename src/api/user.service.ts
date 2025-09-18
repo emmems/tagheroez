@@ -9,6 +9,7 @@ import {
 import { clerkClient } from "@clerk/nextjs/server";
 import { Code, ConnectError, HandlerContext } from "@connectrpc/connect";
 import { and, eq, ilike, inArray, or, type SQL } from "drizzle-orm";
+import zod from "zod";
 import {
   employeesTable,
   parentChildRelationshipTable,
@@ -21,6 +22,7 @@ import {
   GetEmployeesResponseSchema,
   GetUserResponseSchema,
   GetUsersResponseSchema,
+  UserDetails,
   UserDetailsSchema,
   UserRole,
   UserService,
@@ -297,7 +299,7 @@ export const userService: ServiceImplementation<typeof UserService> = {
     }
 
     if (req.updateUser.details != null) {
-      updateData.details = req.updateUser.details;
+      updateData.details = mapUserDetailsIntoDB(req.updateUser.details);
     }
 
     const [, updateError] = await tryCatch(
@@ -399,6 +401,22 @@ export const userService: ServiceImplementation<typeof UserService> = {
       );
     }
 
+    if (req.userIds.length > 0) {
+      const userIds = req.userIds
+        .map((el) => {
+          const nm = Number(el);
+
+          if (isNaN(nm) || nm < 0 || nm > Number.MAX_SAFE_INTEGER) {
+            return undefined;
+          }
+          return nm;
+        })
+        .filter((el) => el != null);
+      if (userIds.length > 0) {
+        statements.push(inArray(siteUsersTable.id, []));
+      }
+    }
+
     const [users, error] = await tryCatch(
       ctx.db
         .select({
@@ -406,13 +424,10 @@ export const userService: ServiceImplementation<typeof UserService> = {
           name: siteUsersTable.name,
           email: siteUsersTable.email,
           role: siteUsersTable.role,
+          details: siteUsersTable.details,
           lastLoginAt: siteUsersTable.lastLoginAt,
         })
         .from(siteUsersTable)
-        .leftJoin(
-          parentChildRelationshipTable,
-          eq(siteUsersTable.id, parentChildRelationshipTable.childId),
-        )
         .where(and(...statements))
         .groupBy(siteUsersTable.id),
     );
@@ -421,15 +436,17 @@ export const userService: ServiceImplementation<typeof UserService> = {
       throw new ConnectError("Failed to fetch users", Code.Internal);
     }
 
+    const userIds = users.map((user) => user.id);
+
     // Fetch parent-child relationships for all users
     const [relationships, relationError] = await tryCatch(
       ctx.db
         .select()
         .from(parentChildRelationshipTable)
         .where(
-          inArray(
-            parentChildRelationshipTable.childId,
-            users.map((user) => user.id),
+          or(
+            inArray(parentChildRelationshipTable.parentId, userIds),
+            inArray(parentChildRelationshipTable.childId, userIds),
           ),
         ),
     );
@@ -450,6 +467,14 @@ export const userService: ServiceImplementation<typeof UserService> = {
       parentsByChild[rel.childId].push(rel.parentId.toString());
     });
 
+    const childrenByParent: { [parentId: number]: string[] } = {};
+    relationships?.forEach((rel) => {
+      if (!childrenByParent[rel.parentId]) {
+        childrenByParent[rel.parentId] = [];
+      }
+      childrenByParent[rel.parentId].push(rel.childId.toString());
+    });
+
     return create(GetUsersResponseSchema, {
       users: users.map((user) => ({
         id: user.id.toString(),
@@ -457,7 +482,8 @@ export const userService: ServiceImplementation<typeof UserService> = {
         email: user.email || undefined,
         role: user.role === "parent" ? UserRole.PARENT : UserRole.PLAYER,
         parentsId: parentsByChild[user.id] || [],
-        details: undefined, // when getting list of users we will not return details. Please use the getUser endpoint to get details.
+        children: childrenByParent[user.id] || [],
+        details: parseUsedDetailsFromDB(user.details), // when getting list of users we will not return details. Please use the getUser endpoint to get details.
         lastActiveAt: optionalDateToTimestamp(user.lastLoginAt || undefined),
       })),
     });
@@ -497,7 +523,12 @@ export const userService: ServiceImplementation<typeof UserService> = {
       ctx.db
         .select()
         .from(parentChildRelationshipTable)
-        .where(eq(parentChildRelationshipTable.childId, userData.id)),
+        .where(
+          or(
+            eq(parentChildRelationshipTable.childId, userData.id),
+            eq(parentChildRelationshipTable.parentId, userData.id),
+          ),
+        ),
     );
 
     if (relationError) {
@@ -507,8 +538,15 @@ export const userService: ServiceImplementation<typeof UserService> = {
       );
     }
 
+    const childrenIds =
+      relationships
+        .filter((el) => el.parentId === userData.id)
+        .map((rel) => rel.childId.toString()) || [];
+
     const parentIds =
-      relationships?.map((rel) => rel.parentId.toString()) || [];
+      relationships
+        .filter((el) => el.childId === userData.id)
+        .map((rel) => rel.parentId.toString()) || [];
 
     return create(GetUserResponseSchema, {
       user: {
@@ -517,8 +555,8 @@ export const userService: ServiceImplementation<typeof UserService> = {
         email: userData.email || undefined,
         role: userData.role === "parent" ? UserRole.PARENT : UserRole.PLAYER,
         parentsId: parentIds,
-        // @ts-ignore
-        details: create(UserDetailsSchema, userData.details),
+        childrenId: childrenIds,
+        details: parseUsedDetailsFromDB(userData.details),
         lastActiveAt: optionalDateToTimestamp(
           userData.lastLoginAt || undefined,
         ),
@@ -581,4 +619,54 @@ function convertEmployeeRole(role: string): EmployeeRole {
     default:
       throw new Error(`Invalid employee role: ${role}`);
   }
+}
+
+function mapUserDetailsIntoDB(
+  details: UserDetails | undefined,
+): object | undefined {
+  if (!details) return undefined;
+
+  return {
+    nickname: details.nickname,
+    preferredActivities: details.preferredActivities,
+    birthday: details.birthday?.seconds,
+    notes: details.notes,
+    phoneNumber: details.phoneNumber,
+    address: details.address,
+    tacAccepted: details.tacAccepted,
+    marketingCommunicationAccepted: details.marketingCommunicationAccepted,
+  };
+}
+
+function parseUsedDetailsFromDB(details: unknown): UserDetails | undefined {
+  if (details == null) {
+    return undefined;
+  }
+  const schema = zod.object({
+    nickname: zod.string().optional(),
+    preferredActivities: zod.array(zod.string()).optional(),
+    birthday: zod.number().optional(),
+    notes: zod.string().optional(),
+    phoneNumber: zod.string().optional(),
+    address: zod.string().optional(),
+    tacAccepted: zod.boolean().optional(),
+    marketingCommunicationAccepted: zod.boolean().optional(),
+  });
+  const { data, success } = schema.safeParse(details);
+  if (success == false) {
+    return undefined;
+  }
+
+  return create(UserDetailsSchema, {
+    nickname: data.nickname,
+    preferredActivities: data.preferredActivities,
+    birthday: data.birthday
+      ? dateToTimestamp(new Date(data.birthday * 1000))
+      : undefined,
+    notes: data.notes,
+    phoneNumber: data.phoneNumber,
+    address: data.address,
+    tacAccepted: data.tacAccepted,
+    marketingCommunicationAccepted: data.marketingCommunicationAccepted,
+  });
 }

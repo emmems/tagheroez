@@ -35,11 +35,24 @@ message CreateUserResponse {
     string id = 1;
 }
 
+message UserDetails {
+    optional string nickname = 1;
+    repeated string preferred_activities = 2;
+    optional google.protobuf.Timestamp birthday = 3;
+    optional string notes = 4;
+    optional string phone_number = 5;
+    optional string address = 6;
+    // Terms and Conditions Accepted
+    optional bool tac_accepted = 7;
+    optional bool marketing_communication_accepted = 8;
+}
+
 message CreateUser {
     string name = 1;
     string email = 2;
     UserRole role = 3;
     repeated string parents_id = 4;
+    optional UserDetails details = 5;
 }
 
 message DeleteUserRequest {
@@ -62,6 +75,7 @@ message GetUserResponse {
 message GetUsersRequest {
     optional string search = 1;
     UserRole role = 2;
+    repeated string user_ids = 3;
 }
 
 message GetUsersResponse {
@@ -71,13 +85,6 @@ message GetUsersResponse {
 enum UserRole {
     PARENT = 0;
     PLAYER = 1;
-}
-
-message UserDetails {
-    optional string nickname = 1;
-    repeated string preferred_activities = 2;
-    optional string birthday = 3;
-    optional string notes = 4;
 }
 
 message UpdateUser {
@@ -96,6 +103,7 @@ message User {
     repeated string parents_id = 5;
     optional google.protobuf.Timestamp last_active_at = 6;
     optional UserDetails details = 7;
+    repeated string children_id = 8;
 }
 
 enum EmployeeStatus {
