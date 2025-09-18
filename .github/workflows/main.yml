@@ -1,0 +1,42 @@
+name: Update README and Push to Prod
+
+on:
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  update_readme:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Needed for proper git history
+
+      - name: Pull Prod Branch
+        run: |
+          git remote set-url origin git@github.com:${{ github.repository }}.git
+          git checkout prod
+
+      - name: Configure Git User
+        run: |
+          git config user.email "krzesaj.piotr.5@gmail.com" # Replace with your user's email
+          git config user.name "emmems"
+
+      - name: Add New Line to README
+        run: |
+          echo "Release at $(date -u)\n" >> README.md
+
+      - name: Commit Changes
+        run: |
+          git add README.md
+          git commit -m "Add new line to README"
+
+      - name: Setup SSH Deploy Key
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_KEY }}
+
+      - name: Push to Prod Branch
+        run: |
+          git push origin HEAD:prod
