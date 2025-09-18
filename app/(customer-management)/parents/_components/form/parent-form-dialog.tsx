@@ -1,27 +1,28 @@
 'use client';
 
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
 } from "@/components/ui/dialog";
+import type { User } from "@/src/api/gen/dashboard/v1/users_pb";
 import { rpcProvider, useMutation } from "@/src/api/rpc.provider";
 import { useState } from "react";
 import ParentForm from "./parent-form";
 import { ParentFormData } from "./parent-schema";
 
 interface ParentFormDialogProps {
-  user?: Partial<ParentFormData>;
+  parent?: User;
   children: React.ReactNode;
 }
 
-export function ParentFormDialog({ user, children }: ParentFormDialogProps) {
+export function ParentFormDialog({ parent, children }: ParentFormDialogProps) {
   const [open, setOpen] = useState(false);
 
-  const isEditMode = !!user;
+  const isEditMode = !!parent;
 
   const { mutateAsync: createParentMutation } = useMutation(rpcProvider.userRouter.createUser);
   const { mutateAsync: updateParentMutation } = useMutation(rpcProvider.userRouter.updateUser);
@@ -30,18 +31,18 @@ export function ParentFormDialog({ user, children }: ParentFormDialogProps) {
     if (isEditMode) {
       await updateParentMutation({
         id: values.id,
-        updateUser: {}
         // TODO ...
+        updateUser: {
+          name: values.fullName,
+        }
       })
     } else {
-      const result = await createParentMutation({
+      await createParentMutation({
         name: values.fullName,
         email: values.email,
         role: 0 // UserRole.Parent
       })
 
-      console.log("result", result);
-      console.log("Tworzenie nowego rodzica:", values);
     }
     setOpen(false);
   };
@@ -60,7 +61,7 @@ export function ParentFormDialog({ user, children }: ParentFormDialogProps) {
               : "Create a new parent/guardian account."}
           </DialogDescription>
         </DialogHeader>
-        <ParentForm initialData={user} onFormSubmit={handleFormSubmit} />
+        <ParentForm initialData={parent} onFormSubmit={handleFormSubmit} />
       </DialogContent>
     </Dialog>
   );

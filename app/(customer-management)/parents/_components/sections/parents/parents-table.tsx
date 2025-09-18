@@ -1,9 +1,11 @@
 'use client'
 
 import { TableSkeleton } from "@/components/table-skeleton";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import type { User } from "@/src/api/gen/dashboard/v1/users_pb";
+import ParentActionsCell from "../../parent-actions-cell";
 
 interface ParentsTableProps {
   parents: User[];
@@ -72,12 +74,13 @@ function ParentsTable({ parents, isParentsLoading } : ParentsTableProps) {
                   </TableCell>
                   {/*<TableCell>{getLastLoginView(item.lastActiveAt)}</TableCell>*/}
                   <TableCell>4/15/2023</TableCell>
-                  <TableCell>
-                    -
-                    {/*{getStatusView(item.status)}*/}
+                  <TableCell className="flex flex-col space-y-1">
+                    <Badge className="bg-emerald-100 text-emerald-500">Terms: Yes</Badge>
+                    <Badge className="bg-gray-100 text-gray-800">Marketing: No</Badge>
                   </TableCell>
                   <TableCell className="text-right">
                     {/*<UserActionsCell user={item} updateUser={setEmployees} />*/}
+                    <ParentActionsCell parent={item} />
                   </TableCell>
                 </TableRow>
               )}

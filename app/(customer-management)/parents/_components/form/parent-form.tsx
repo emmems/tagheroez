@@ -5,14 +5,16 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 
 import { Checkbox } from "@/components/ui/checkbox";
+import type { User } from "@/src/api/gen/dashboard/v1/users_pb";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { ParentFormData, parentSchema } from "./parent-schema";
 
 
 interface ParentFormProps {
-  initialData?: Partial<ParentFormData>;
+  initialData?: User;
   onFormSubmit: (values: ParentFormData) => Promise<void>;
 }
 
@@ -24,13 +26,12 @@ function ParentForm({ initialData, onFormSubmit }: ParentFormProps) {
   const form = useForm<ParentFormData>({
       resolver: zodResolver(parentSchema),
       defaultValues: {
-        // initialData || {}
         id: initialData?.id || undefined,
-        fullName: initialData?.fullName || "",
+        fullName: initialData?.name || "",
         email: initialData?.email || "",
-        phoneNumber: initialData?.phoneNumber || "",
-        termsAndConditions: initialData?.termsAndConditions || false,
-        marketingCommunications: initialData?.marketingCommunications || false,
+        phoneNumber: "", // TODO
+        termsAndConditions: false, // TODO
+        marketingCommunications: false, // TODO
       },
     })
 
@@ -38,8 +39,11 @@ function ParentForm({ initialData, onFormSubmit }: ParentFormProps) {
      setIsSubmitting(true);
      try {
        await onFormSubmit(values);
+
+       toast.success(isEditMode ? "The changes have been saved." : "New parent created.")
      } catch (error) {
-       console.log("Error while creating parent", error);
+       console.log("Error while creating/saving parent", error);
+       toast.error("Something gone wrong.")
      } finally {
        setIsSubmitting(false);
      }
@@ -83,6 +87,7 @@ function ParentForm({ initialData, onFormSubmit }: ParentFormProps) {
         />
 
         <FormField
+          disabled={isEditMode}
           control={form.control}
           name="phoneNumber"
           render={({ field }) => (
@@ -98,6 +103,7 @@ function ParentForm({ initialData, onFormSubmit }: ParentFormProps) {
         />
 
         <FormField
+          disabled={isEditMode}
           control={form.control}
           name="termsAndConditions"
           render={({ field }) => (
@@ -106,6 +112,7 @@ function ParentForm({ initialData, onFormSubmit }: ParentFormProps) {
                 <Checkbox
                   checked={field.value}
                   onCheckedChange={field.onChange}
+                  disabled={field.disabled}
                 />
               </FormControl>
               <div className="space-y-1 leading-none">

@@ -12,8 +12,7 @@ type SearchParamsType = {
 };
 
 function ParentsSection() {
-  // TODO only role Parents :)
-
+  // TODO przerobic na wbudowane rozwiazanie z Next'a
   const [params, setParams] = useUrlSearchParams(
     { search: "" } as SearchParamsType,
     { search: String },
@@ -25,6 +24,9 @@ function ParentsSection() {
      isFetching: isParentsLoading,
    } = useQuery(
      rpcProvider.userRouter.getUsers,
+     {
+       role: 0,
+     }
      // TODO fix later
      // {
      //   search: String(params.search ?? ''),
